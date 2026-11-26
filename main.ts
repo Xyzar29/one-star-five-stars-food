@@ -1,4 +1,4 @@
-import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 // One-star alien review of Earth that still gives five stars for the food.
@@ -18,3 +18,5 @@ try {
 }
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.txt"), LINE, { encoding: "utf8", mode: 0o644 });
+// writeFileSync's mode is masked by the umask; set 0644 explicitly.
+chmodSync(join(outDir, "entry.txt"), 0o644);
